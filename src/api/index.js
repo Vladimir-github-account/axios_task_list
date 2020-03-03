@@ -16,3 +16,7 @@ export const createTask = async (task) => axios.post(
 export const getUserTasks = async () => axios.get(
     BASE_URL + 'tasks',
 );
+
+export const getUsers = async () => axios.get(
+    BASE_URL + 'users',
+);
