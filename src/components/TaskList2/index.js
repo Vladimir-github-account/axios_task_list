@@ -1,55 +1,37 @@
-import React, {Component} from 'react';
-import {getUserTasks}     from '../../api';
+import React          from 'react';
+import PropTypes      from 'prop-types';
+import withData       from '../HOC/withData.js';
+import {getUserTasks} from '../../api/tasksController.js';
 
-class TaskList2 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFetching: false,
-      tasks: [],
-      error: null,
-    };
-  }
+function TasksList (props) {
 
-  componentDidMount() {
-    this.loadData();
-  }
+  const { tasks, isFetching } = props;
 
-  loadData = async () => {
-    this.setState({
-                    isFetching: true,
-                  });
-    try {
-      const {tasks} = await getUserTasks();
-      this.setState({
-                      tasks
-                    });
-    } catch (e) {
-      this.setState({
-                      error: e
-                    });
-    } finally {
-      this.setState({
-                      isFetching: false,
-                    });
-    }
-  };
-
-  render() {
-    const {tasks, isFetching} = this.state;
-    return (
-        <ol>
-          {
-            tasks.map(task => (
-                <li key={task.id}>{task.value}</li>
-            ))
-          }
-          {
-            isFetching && <li>loading...</li>
-          }
-        </ol>
-    );
-  }
+  return (
+      <ol>
+        {
+          tasks.map( item => (<li key={item.id}>{item.value}</li>) )
+        }
+        {
+          isFetching && <li>Loading...</li>
+        }
+      </ol>
+  );
 }
 
-export default TaskList2;
+TasksList.propTypes = {
+  tasks: PropTypes.arrayOf( PropTypes.shape( {
+                                               id: PropTypes.oneOfType(
+                                                   [PropTypes.string, PropTypes.number] ).isRequired,
+                                               value: PropTypes.string.isRequired,
+                                               isDone: PropTypes.bool.isRequired,
+                                               deadline: PropTypes.string.isRequired,
+
+                                             } ) ).isRequired
+};
+
+TasksList.defaultProps = {
+  tasks: [],
+};
+
+export default withData(getUserTasks, TasksList);

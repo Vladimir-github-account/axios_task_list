@@ -3,22 +3,12 @@ import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 import Home                                 from './pages/Home.js';
 import About                                from './pages/About.js';
 import Contacts                             from './pages/Contacts.js';
-
+import DropMenu                             from './components/DropMenu';
+import TaskList2 from './components/TaskList2';
+import TaskList  from './components/TaskList';
 function App() {
   return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/'>
-            <Home/>
-          </Route>
-          <Route exact path='/about'>
-            <About/>
-          </Route>
-          <Route exact path='/contacts'>
-            <Contacts/>
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <TaskList/>
   );
 }
 
